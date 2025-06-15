@@ -1,0 +1,175 @@
+WHAT IS DBT /??
+DBT MATERILAIZATION
+DBT MODELS - TRANSFORMATION LOGIC 
+DBT SEEDS - STATCI CSV FILES 
+DBT SOURCESW- FULLY UQLAIFIED NAME 
+DBT VARS  - LOCAL GLOBAL 
+DBT MACROS - RESUBALITY FUNCTION AND PROCEDURE
+
+===============
+YMLS 
+DBT_PROJECT 
+PROFILES CORE 
+SOURCES 
+SEEDS 
+======================
+
+REF 
+SOURCE 
+VAR FUNCTION==================
+
+
+dbt run -m abc1231238
+
+1. dbt_project.yml 
+ profiles defualt sf datapladtgomr 
+ db sc user name 
+warehouse  
+
+2. model-paths: ["models"]
+{{
+    config(
+        materialized='table'
+    )
+}}
+select 1 id
+
+view ??
+
+compliation(synatx) + run time errors ??
+
+executing the db object
+
+
+14:43:10 Began running node model.my_new_project.abc1231238
+14:43:10 1 of 1 START sql view model RETAIL_DEV_SC_praveen_sc.abc1231238 ................ [RUN]
+14:43:10 Began compiling node model.my_new_project.abc1231238
+14:43:10 Writing injected SQL for node "model.my_new_project.abc1231238"
+14:43:10 Began executing node model.my_new_project.abc1231238
+14:43:10 Writing runtime sql for node "model.my_new_project.abc1231238"
+14:43:10 Using snowflake connection "model.my_new_project.abc1231238"
+14:43:10 On model.my_new_project.abc1231238: /* {"app": "dbt", "dbt_version": "2024.11.25+e9c6e22", "profile_name": "user", "target_name": "default", "node_id": "model.my_new_project.abc1231238"} */
+create or replace   view RETAIL_DEV_DB.RETAIL_DEV_SC_praveen_sc.abc1231238
+  
+   as (
+    
+select 1 id
+  );
+14:43:10 SQL status: SUCCESS 1 in 0.147 seconds
+14:43:10 1 of 1 OK created sql view model RETAIL_DEV_SC_praveen_sc.abc1231238 ........... [[32mSUCCESS 1[0m in 0.16s]
+14:43:10 Finished running node model.my_new_project.abc1231238
+
+
+
+dbt run -m abc1231238 => abc1231238
+
+
+defualt scehma= ?? retail_dev_sc 
+custom_sc ?? test_Sc
+
+
+
+{% macro generate_schema_name(test_Sc,node) %}
+    {{test_Sc}} use schema test_Sc;
+{% endmacro %}
+
+{{
+    config(
+        materialized='view',
+    )
+}}
+select 1 id
+
+
+dbt run -m abc1231238
+
+
+{% macro generate_schema_name(none,node) %}
+    {{test_Sc}} create schema none;
+{% endmacro %}
+
+
+{% macro generate_schema_name(test_Sc,node) %}
+    {{test_Sc}}
+{% endmacro %}
+
+RETAIL_DEV_DB.None.abc1231238
+
+1. whenever i run any dbt model 
+2. dbt looks fro generate_schema_name macro is avaialble or not 
+if it is not available 
+default_schema ||_custom_schema;
+3. generate_schema_name is avaialble 
+    use schema custom_schema (config macro)
+4. 	generate_schema_name macro is avaialble 
+but in model ?? custom_schema is not vaialble 
+ none as value ?? none 
+	
+	
+	
+	
+	{% macro generate_schema_name(custom_schema_name,node) %}
+  {% if custom_schema_name is not none %}
+      {{custom_schema_name}}
+   {% else%}
+      {{target.schema}}  
+  {% endif %}
+    
+{% endmacro %}
+
+{{
+    config(
+        materialized='view',
+    )
+}}
+
+dbt run -m 
+
+{% macro generate_schema_name(none,node) %}
+  {% if none is not none %}
+      {{custom_schema_name}}
+   {% else%}
+      {{target.schema}}   retail_dev_sc
+  {% endif %}
+    
+{% endmacro %}
+
+
+??
+GENERALLY WHENVER I EXUTE ANY MODEL ?? 
+REAIL_DEV_SC
+
+customizing the db object:
+
+HOOKS:
+PRE-HOOK  : BEFORE EXUETING ANY MODEL 
+POST HOOK : AFTER EXUTING THE MODEL ;
+
+
+i created 1 table ??
+
+some masking ???
+
+once created the table give the give acces or give th e prvielleges or dp th data masking post hook ;
+
+
+grant access to db object to role - post hook 
+dynamic data masking  - post hook 
+
+
+
+
+auditing purpsoe :
+
+
+insert into audit_table(modle_name,strta_time,end_time)
+            values(abc1,CURRENT_TIMESTAMP,null)
+			;
+			
+			ending 
+			
+	post hook		
+			
+insert into audit_table(modle_name,strta_time,end_time)
+            values(abc1,CURRENT_TIMESTAMP,CURRENT_TIMESTAMP+1)
+			
